@@ -6,37 +6,56 @@ $(document).ready(function () {
     reset();
   });
 });
-
-Blockly.Blocks['bot_block'] = {
+Blockly.Blocks['bot'] = {
   init: function() {
     this.appendStatementInput("bot")
         .setCheck(null)
         .appendField("BOT");
+    this.appendDummyInput()
+        .appendField("ASK ME QUESTION")
+        .appendField(new Blockly.FieldDropdown([["What is the date today?","q1"], ["What is the time now?","q2"], ["How are you?","q3"]]), "question");
     this.setColour(230);
  this.setTooltip("");
  this.setHelpUrl("");
   }
 };
-
-Blockly.JavaScript['bot_block'] = function(block) {
+Blockly.JavaScript['bot'] = function(block) {
   var statements_bot = Blockly.JavaScript.statementToCode(block, 'bot');
+  var dropdown_question = block.getFieldValue('question');
   // TODO: Assemble JavaScript into code variable.
-  var code = `var inputTextValue ="${statements_bot}";
-`;
+  var code = '...;\n';
   return code;
 };
-
-Blockly.Blocks['dropdown_block'] = {
-  init: function() {
-    this.appendDummyInput()
-        .appendField("Ask me question")
-        .appendField(new Blockly.FieldDropdown([["What is the date today?","q1"], ["What is the time now?","q2"], ["How are you?","q3"], ["What is JavaScript?","q4"], ["What is your name?","q5"]]), "question");
-    this.setColour(230);
-    this.setTooltip("");
-    this.setHelpUrl("");
-  }
+//Blockly.Blocks['bot_block'] = {
+//  init: function() {
+//    this.appendStatementInput("bot")
+//        .setCheck(null)
+//        .appendField("BOT");
+//    this.setColour(230);
+// this.setTooltip("");
+// this.setHelpUrl("");
+//  }
+//};
+//
+//Blockly.JavaScript['bot_block'] = function(block) {
+//  var statements_bot = Blockly.JavaScript.statementToCode(block, 'bot');
+//  // TODO: Assemble JavaScript into code variable.
+//  var code = `var inputTextValue ="${statements_bot}";
+//`;
+//  return code;
 };
-
+//
+//Blockly.Blocks['dropdown_block'] = {
+//  init: function() {
+//    this.appendDummyInput()
+//        .appendField("Ask me question")
+//        .appendField(new Blockly.FieldDropdown([["What is the date today?","q1"], ["What is the time now?","q2"], ["How are you?","q3"], ["What is JavaScript?","q4"], ["What is your name?","q5"]]), "question");
+//    this.setColour(230);
+//    this.setTooltip("");
+//    this.setHelpUrl("");
+//  }
+//};
+//
 Blockly.JavaScript['dropdown_block'] = function(block) {
   var dropdown_question = block.getFieldValue('question');
   var code =`
