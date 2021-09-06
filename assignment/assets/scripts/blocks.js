@@ -6,87 +6,72 @@ $(document).ready(function () {
     reset();
   });
 });
-Blockly.Blocks['bot'] = {
+
+Blockly.Blocks['bot_block'] = {
   init: function() {
     this.appendStatementInput("bot")
         .setCheck(null)
         .appendField("BOT");
-    this.appendDummyInput()
-        .appendField("ASK ME QUESTION")
-        .appendField(new Blockly.FieldDropdown([["What is the date today?","q1"], ["What is the time now?","q2"], ["How are you?","q3"]]), "question");
     this.setColour(230);
  this.setTooltip("");
  this.setHelpUrl("");
   }
 };
-Blockly.JavaScript['bot'] = function(block) {
-  var statements_bot = Blockly.JavaScript.statementToCode(block, 'bot');
-  var dropdown_question = block.getFieldValue('question');
+
+Blockly.JavaScript['bot_block'] = function(block) {
+  var statements_name = Blockly.JavaScript.statementToCode(block, 'bot');
+   return statements_name
   // TODO: Assemble JavaScript into code variable.
-  var code = '...;\n';
-  return code;
+
 };
-//Blockly.Blocks['bot_block'] = {
-//  init: function() {
-//    this.appendStatementInput("bot")
-//        .setCheck(null)
-//        .appendField("BOT");
-//    this.setColour(230);
-// this.setTooltip("");
-// this.setHelpUrl("");
-//  }
-//};
-//
-//Blockly.JavaScript['bot_block'] = function(block) {
-//  var statements_bot = Blockly.JavaScript.statementToCode(block, 'bot');
-//  // TODO: Assemble JavaScript into code variable.
-//  var code = `var inputTextValue ="${statements_bot}";
-//`;
-//  return code;
+
+Blockly.Blocks['dropdown_block'] = {
+  init: function() {
+    this.appendDummyInput()
+        .appendField("Ask me question")
+        .appendField(new Blockly.FieldDropdown([["What is the date today?","q1"], ["What is the time now?","q2"], ["How are you?","q3"], ["What is JavaScript?","q4"], ["What is your name?","q5"]]), "question");
+    this.setColour(230);
+    this.setPreviousStatement(true, null);
+    this.setTooltip("");
+    this.setHelpUrl("");
+  }
 };
-//
-//Blockly.Blocks['dropdown_block'] = {
-//  init: function() {
-//    this.appendDummyInput()
-//        .appendField("Ask me question")
-//        .appendField(new Blockly.FieldDropdown([["What is the date today?","q1"], ["What is the time now?","q2"], ["How are you?","q3"], ["What is JavaScript?","q4"], ["What is your name?","q5"]]), "question");
-//    this.setColour(230);
-//    this.setTooltip("");
-//    this.setHelpUrl("");
-//  }
-//};
-//
+
 Blockly.JavaScript['dropdown_block'] = function(block) {
-  var dropdown_question = block.getFieldValue('question');
-  var code =`
-  if ("${dropdown_question}"=== "q1")
+const allblocks = Blockly.getMainWorkspace().getAllBlocks();
+const bot_blk=allblocks.find(blk => blk.type === "bot_block");
+  var dp_block= bot_blk.getInputTargetBlock("bot");
+
+  var dropdown_question =dp_block.getFieldValue('question');
+  var answer;
+  if (dropdown_question === "q1")
      {
      let today = new Date().toLocaleDateString()
-      var inputTextValue = today;
+      var answer = today;
       }
 
-  else if ("${dropdown_question}"=== "q2")
+  else if (dropdown_question === "q2")
      {
      var today = new Date();
      var time = today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
-     var inputTextValue = time;
+     var answer = time;
      }
 
-  else if ("${dropdown_question}"=== "q3")
+  else if (dropdown_question === "q3")
     {
-    var inputTextValue ="I am fine,Thanks";
+    var answer ="I am fine,Thanks";
     }
 
-   else if ("${dropdown_question}"=== "q4")
+   else if (dropdown_question === "q4")
     {
-     var inputTextValue ="JavaScript is a scripting language that enables you to create dynamically updating content,control multimedia, animate images, and pretty much everything else";
+     var answer ="JavaScript is a scripting language that enables you to create dynamically updating content,control multimedia, animate images, and pretty much everything else";
     }
 
-   else if ("${dropdown_question}"=== "q5")
+   else if (dropdown_question === "q5")
     {
-     var inputTextValue ="I am Bot";
+     var answer ="I am Bot";
      };
-	`;
+	 var code =`var inputTextValue = "${answer}";`;
   return code;
 };
 
